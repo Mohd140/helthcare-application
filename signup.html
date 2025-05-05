@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healthcare App - Sign Up</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="/" class="logo">Healthcare<span>App</span></a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/login">Login</a>
+      <a href="/signup" class="btn btn-outline">Sign Up</a>
+    </div>
+  </nav>
+
+  <!-- Signup Form -->
+  <div class="container">
+    <div class="form-container">
+      <h2>Create Your Account</h2>
+      <div id="message" class="message" style="display: none;"></div>
+      
+      <form id="signupForm">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password (min 6 characters)</label>
+          <input type="password" id="password" name="password" required minlength="6">
+        </div>
+        
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" required minlength="6">
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Sign Up</button>
+      </form>
+      
+      <p style="text-align: center; margin-top: 1rem;">
+        Already have an account? <a href="/login">Log in here</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2023 Healthcare App. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const messageEl = document.getElementById('message');
+      
+      messageEl.style.display = 'none';
+      messageEl.className = 'message';
+      messageEl.textContent = '';
+      
+      // Validate passwords match
+      if (password !== confirmPassword) {
+        messageEl.textContent = 'Passwords do not match';
+        messageEl.className = 'message message-error';
+        messageEl.style.display = 'block';
+        return;
+      }
+      
+      try {
+        const response = await fetch('/api/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, email, password })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          messageEl.textContent = 'Registration successful! Redirecting to login...';
+          messageEl.className = 'message message-success';
+          messageEl.style.display = 'block';
+          
+          document.getElementById('signupForm').reset();
+          
+          setTimeout(() => {
+            window.location.href = '/login';
+          }, 1500);
+        } else {
+          messageEl.textContent = data.error || 'Registration failed';
+          messageEl.className = 'message message-error';
+          messageEl.style.display = 'block';
+        }
+      } catch (error) {
+        messageEl.textContent = 'Network error. Please try again.';
+        messageEl.className = 'message message-error';
+        messageEl.style.display = 'block';
+        console.error('Signup error:', error);
+      }
+    });
+  </script>
+</body>
+</html>

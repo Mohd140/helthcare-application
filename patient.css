@@ -1,0 +1,509 @@
+/* Patient Records Styles - Enhanced to match global style.css */
+:root {
+    --primary-color: #2a9d8f;
+    --secondary-color: #264653;
+    --accent-color: #e9c46a;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    --danger-color: #e76f51;
+    --success-color: #2a9d8f;
+    --warning-color: #e9c46a;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+  }
+  
+  /* Patient Content Container */
+  .patient-content {
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+  }
+  
+  .patient-content:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Patient Header */
+  .patient-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .patient-header h1 {
+    color: var(--secondary-color);
+    font-size: 2rem;
+    margin: 0;
+  }
+  
+  /* Search and Filter Section */
+  .search-filter {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    gap: 1.5rem;
+  }
+  
+  .search-box {
+    display: flex;
+    flex: 1;
+    position: relative;
+  }
+  
+  .search-box input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+    font-size: 1rem;
+    transition: var(--transition);
+  }
+  
+  .search-box input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(42, 157, 143, 0.2);
+  }
+  
+  .search-box button {
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0 1.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  
+  .search-box button:hover {
+    background-color: #21867a;
+  }
+  
+  .filter-options {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .filter-options select {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    background-color: white;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  
+  .filter-options select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+  }
+  
+  /* Patient Card Styles */
+  .patient-list {
+    display: grid;
+    gap: 1rem;
+  }
+  
+  .patient-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+    border-left: 4px solid transparent;
+  }
+  
+  .patient-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    border-left-color: var(--primary-color);
+  }
+  
+  .patient-card-info {
+    flex: 1;
+  }
+  
+  .patient-card-info h3 {
+    margin: 0;
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  
+  .patient-card-info p {
+    margin: 0.5rem 0 0;
+    color: #6c757d;
+    font-size: 0.9rem;
+  }
+  
+  .patient-card-actions {
+    display: flex;
+    gap: 0.75rem;
+  }
+  
+  /* Status Badges */
+  .status-badge {
+    padding: 0.3rem 0.75rem;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .status-active {
+    background-color: rgba(42, 157, 143, 0.1);
+    color: var(--success-color);
+    border: 1px solid rgba(42, 157, 143, 0.3);
+  }
+  
+  .status-inactive {
+    background-color: rgba(231, 111, 81, 0.1);
+    color: var(--danger-color);
+    border: 1px solid rgba(231, 111, 81, 0.3);
+  }
+  
+  /* Loading Spinner */
+  .loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 0;
+  }
+  
+  .spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .no-patients {
+    text-align: center;
+    padding: 3rem 0;
+    color: #6c757d;
+    background-color: #f8f9fa;
+    border-radius: var(--border-radius);
+  }
+  
+  /* Modal Styles */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+    backdrop-filter: blur(2px);
+  }
+  
+  .modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    max-width: 800px;
+    position: relative;
+    animation: modalFadeIn 0.3s ease-out;
+  }
+  
+  @keyframes modalFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .close-modal {
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #aaa;
+    transition: var(--transition);
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  
+  .close-modal:hover {
+    color: var(--danger-color);
+    transform: rotate(90deg);
+  }
+  
+  /* Patient Details */
+  .patient-details {
+    margin-top: 1.5rem;
+  }
+  
+  .patient-info-section {
+    margin-bottom: 2.5rem;
+  }
+  
+  .patient-info-section h3 {
+    color: var(--primary-color);
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+  }
+  
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .info-item label {
+    font-weight: 500;
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .info-item p {
+    margin: 0;
+    padding: 0.5rem 0.75rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    border-left: 3px solid var(--primary-color);
+  }
+  
+  /* Visit Timeline */
+  .visit-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  
+  .visit-item {
+    background-color: #f8f9fa;
+    padding: 1.25rem;
+    border-radius: 6px;
+    border-left: 4px solid var(--primary-color);
+    transition: var(--transition);
+  }
+  
+  .visit-item:hover {
+    background-color: white;
+    box-shadow: var(--box-shadow);
+  }
+  
+  .visit-item h4 {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--secondary-color);
+  }
+  
+  .visit-item p {
+    margin: 0.75rem 0 0;
+    color: #555;
+    line-height: 1.5;
+  }
+  
+  .visit-date {
+    color: #6c757d;
+    font-size: 0.85rem;
+    font-weight: normal;
+  }
+  
+  /* Modal Actions */
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+  }
+  
+  /* Form Styles */
+  .form-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--secondary-color);
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: var(--transition);
+  }
+  
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(42, 157, 143, 0.2);
+  }
+  
+  .form-group textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+  
+  .form-actions {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    grid-column: span 2;
+  }
+  
+  /* Toast Notifications */
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: var(--border-radius);
+    color: white;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 1100;
+  }
+  
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .toast-success {
+    background-color: var(--success-color);
+  }
+  
+  .toast-error {
+    background-color: var(--danger-color);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .form-columns {
+      grid-template-columns: 1fr;
+    }
+    
+    .search-filter {
+      flex-direction: column;
+    }
+    
+    .info-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .modal-content {
+      width: 95%;
+      margin: 10% auto;
+      padding: 1.5rem;
+    }
+    
+    .patient-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    
+    .modal-actions {
+      flex-direction: column-reverse;
+    }
+    
+    .modal-actions button {
+      width: 100%;
+    }
+  }
+  /* Patient Details Styling */
+.patient-details {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.patient-details p {
+  margin: 0.5rem 0;
+  color: #555;
+}
+
+.patient-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Add to patient.css */
+.patient-id {
+  color: #666;
+  font-size: 0.8em;
+}
+
+.detail-row {
+  display: flex;
+  margin: 0.3rem 0;
+}
+
+.detail-label {
+  font-weight: 500;
+  width: 120px;
+  color: var(--secondary-color);
+}
+
+.blood-type {
+  font-weight: bold;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+}
+
+.blood-type.Apos { background: #ffebee; color: #c62828; }
+.blood-type.Aneg { background: #ffebee; color: #b71c1c; }
+.blood-type.Bpos { background: #e3f2fd; color: #1565c0; }
+.blood-type.Oneg { background: #e8f5e9; color: #2e7d32; }
+/* Add other blood type colors as needed */
