@@ -22,18 +22,17 @@ A secure Node.js authentication system for healthcare applications, featuring:
 
 2. Install dependencies:
 Bash
-cd healthcare-auth
-npm install
+npm install express mongoose bcryptjs jsonwebtoken dotenv
 
 3. Set up environment variables:
-bash
-cp .env.example .env
+in your VSCode Click write and add new file .env, this is used for session tokens secret key you can change it, and write this inside it:
+JWT_SECRET=Secret
+
 # Edit .env with your MongoDB and JWT settings
 
 4. Start the server:
 bash
-npm start
-
+node server.js
 📦 Tech Stack
 Backend: Node.js, Express, MongoDB
 
