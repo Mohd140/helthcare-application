@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healthcare App - Login</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    #loginBtn.locked {
+      background-color: #cccccc !important;
+      cursor: not-allowed;
+    }
+    #countdownDisplay {
+      display: none;
+      color: #e53935;
+      font-weight: bold;
+      margin-top: 10px;
+      text-align: center;
+    }
+    .attempts-warning {
+      color: #e53935;
+      font-size: 0.9rem;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="logo">Healthcare<span>App</span></a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/login">Login</a>
+      <a href="/signup" class="btn btn-outline">Sign Up</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="form-container">
+      <h2>Login to Your Account</h2>
+      <div id="message" class="message" style="display: none;"></div>
+      
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required>
+          <div id="attemptsWarning" class="attempts-warning" style="display: none;"></div>
+        </div>
+        
+        <button type="submit" id="loginBtn" class="btn btn-primary">Login</button>
+        <div id="countdownDisplay"></div>
+      </form>
+      
+      <p style="text-align: center; margin-top: 1rem;">
+        Don't have an account? <a href="/signup">Sign up here</a>
+      </p>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2023 Healthcare App. All rights reserved.</p>
+  </footer>
+
+  <script>
+    let countdownInterval;
+    let lockEndTime = localStorage.getItem('lockEndTime');
+
+    // Check for existing lock on page load
+    if (lockEndTime && new Date(parseInt(lockEndTime)) > new Date()) {
+      startCountdown(Math.floor((new Date(parseInt(lockEndTime)) - new Date()) / 1000));
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const loginBtn = document.getElementById('loginBtn');
+      const messageEl = document.getElementById('message');
+      const attemptsWarning = document.getElementById('attemptsWarning');
+
+      messageEl.style.display = 'none';
+      attemptsWarning.style.display = 'none';
+
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          // Successful login
+          clearCountdown();
+          localStorage.removeItem('lockEndTime');
+          showMessage('Login successful! Redirecting...', 'success');
+          
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 1500);
+        } else {
+          // Failed login
+          showMessage(data.error, 'error');
+          
+          if (data.locked && data.remainingTime) {
+            lockEndTime = new Date().getTime() + data.remainingTime * 1000;
+            localStorage.setItem('lockEndTime', lockEndTime);
+            startCountdown(data.remainingTime);
+          } else if (data.attemptsLeft !== undefined) {
+            attemptsWarning.textContent = `${data.attemptsLeft} attempts remaining`;
+            attemptsWarning.style.display = 'block';
+          }
+        }
+      } catch (error) {
+        showMessage('Network error. Please try again.', 'error');
+      }
+    });
+
+    function startCountdown(seconds) {
+      const loginBtn = document.getElementById('loginBtn');
+      const countdownDisplay = document.getElementById('countdownDisplay');
+      
+      clearCountdown();
+      
+      loginBtn.disabled = true;
+      loginBtn.classList.add('locked');
+      countdownDisplay.style.display = 'block';
+      
+      function updateDisplay() {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        countdownDisplay.textContent = `Account locked. Try again in ${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        
+        if (seconds <= 0) {
+          clearCountdown();
+          return;
+        }
+        seconds--;
+      }
+      
+      updateDisplay();
+      countdownInterval = setInterval(updateDisplay, 1000);
+    }
+
+    function clearCountdown() {
+      clearInterval(countdownInterval);
+      const loginBtn = document.getElementById('loginBtn');
+      const countdownDisplay = document.getElementById('countdownDisplay');
+      
+      loginBtn.disabled = false;
+      loginBtn.classList.remove('locked');
+      countdownDisplay.style.display = 'none';
+    }
+
+    function showMessage(text, type) {
+      const messageEl = document.getElementById('message');
+      messageEl.textContent = text;
+      messageEl.className = `message message-${type}`;
+      messageEl.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
